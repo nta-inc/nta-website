@@ -248,5 +248,16 @@ initDB().then(() => {
     console.log(`\n🚀 Servidor en http://localhost:${PORT}`);
     console.log(`   Aula Virtual:   http://localhost:${PORT}/aula.html`);
     console.log(`   Panel Profesor: http://localhost:${PORT}/panel.html\n`);
+
+    // Verificar conexión con Gmail al arrancar
+    transporter.verify((err, success) => {
+      if (err) {
+        console.error('❌ ERROR GMAIL:', JSON.stringify(err));
+        console.error('   USER:', process.env.GMAIL_USER);
+        console.error('   PASS definida:', !!process.env.GMAIL_PASS);
+      } else {
+        console.log('✅ Conexión con Gmail OK — listo para enviar correos');
+      }
+    });
   });
 }).catch(err => { console.error('Error:', err); process.exit(1); });
