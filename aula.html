@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Virtual – National Technology Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .aula-hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #0d2244 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 100px 20px 60px;
+    }
+    .aula-hero-inner { text-align: center; max-width: 520px; width: 100%; }
+    .aula-badge {
+      display: inline-block;
+      background: rgba(74,143,212,0.15); border: 1px solid rgba(74,143,212,0.35);
+      color: var(--azul-claro); font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 20px; margin-bottom: 24px;
+    }
+    .aula-hero h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 14px;
+    }
+    .aula-hero p { color: #94b8d8; font-size: 15px; margin-bottom: 40px; line-height: 1.7; }
+    .codigo-box {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 16px; padding: 32px;
+    }
+    .codigo-box label {
+      display: block; font-size: 12px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: #94b8d8; margin-bottom: 12px;
+    }
+    .codigo-row { display: flex; gap: 10px; }
+    .codigo-row input {
+      flex: 1; padding: 14px 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 10px; color: #fff;
+      font-size: 16px; font-family: 'Orbitron', sans-serif;
+      letter-spacing: 3px; text-transform: uppercase; outline: none;
+      transition: border-color 0.2s;
+    }
+    .codigo-row input::placeholder { font-family: 'Inter', sans-serif; letter-spacing: 0; font-size: 14px; color: rgba(255,255,255,0.3); }
+    .codigo-row input:focus { border-color: var(--azul-claro); }
+    .btn-entrar {
+      padding: 14px 28px; background: var(--azul); color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.15s; white-space: nowrap;
+    }
+    .btn-entrar:hover { background: var(--azul-claro); transform: translateY(-1px); }
+    .btn-entrar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .codigo-error { margin-top: 12px; color: #f87171; font-size: 13px; display: none; }
+
+    /* Sala */
+    #sala { display: none; }
+    .sala-header {
+      padding: 90px 5% 30px; background: var(--navy);
+      border-bottom: 1px solid rgba(74,143,212,0.2);
+    }
+    .back-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7); padding: 7px 16px; border-radius: 8px;
+      font-size: 13px; cursor: pointer; margin-bottom: 20px;
+      transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .back-btn:hover { border-color: var(--azul-claro); color: #fff; }
+    .sala-header h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem); color: #fff; margin-bottom: 8px;
+    }
+    .curso-tag {
+      display: inline-block;
+      background: rgba(74,143,212,0.2); color: var(--azul-claro);
+      font-size: 12px; font-weight: 600; letter-spacing: 1px;
+      padding: 4px 14px; border-radius: 20px; text-transform: uppercase;
+    }
+    .sala-wrap { max-width: 1100px; margin: 0 auto; padding: 40px 5% 80px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 4px;
+      border-bottom: 1px solid var(--gris-2);
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      padding: 10px 22px; background: none; border: none;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      color: var(--gris-texto); border-bottom: 2px solid transparent;
+      transition: all 0.2s; margin-bottom: -1px;
+    }
+    .tab-btn.active { color: var(--azul); border-bottom-color: var(--azul); }
+    .tab-btn:hover:not(.active) { color: var(--texto); }
+
+    /* Cards */
+    .materiales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .material-card {
+      background: #fff; border: 1px solid var(--gris-2);
+      border-radius: 14px; overflow: hidden; cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .material-card:hover { box-shadow: 0 8px 32px rgba(15,40,80,0.12); transform: translateY(-3px); }
+    .card-thumb {
+      height: 160px; background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .card-thumb .thumb-icon { font-size: 48px; opacity: 0.7; }
+    .card-thumb .tipo-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(0,0,0,0.6); color: #fff;
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+    }
+    .card-body { padding: 16px 18px 20px; }
+    .card-body h4 { font-weight: 600; font-size: 15px; color: var(--texto); margin-bottom: 6px; line-height: 1.3; }
+    .card-body p  { font-size: 12px; color: var(--gris-texto); }
+
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85); z-index: 9000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--navy-dark); border-radius: 16px;
+      max-width: 860px; width: 100%; overflow: hidden; position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,0.1); border: none; color: #fff;
+      width: 34px; height: 34px; border-radius: 50%;
+      font-size: 18px; cursor: pointer; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
+    .modal-video { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+    .pdf-viewer  { width: 100%; height: 80vh; border: none; display: block; }
+    .img-viewer  { width: 100%; max-height: 80vh; object-fit: contain; display: block; }
+    .modal-info  { padding: 20px 24px; }
+    .modal-info h3 { color: #fff; font-size: 17px; margin-bottom: 6px; }
+    .modal-info p  { color: #94b8d8; font-size: 13px; }
+
+    /* Empty / loading */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--gris-texto); }
+    .empty-state .e-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+    .loading-dots { display: flex; gap: 6px; justify-content: center; padding: 60px; }
+    .loading-dots span {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--azul); animation: bounce 1s infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes bounce {
+      0%,80%,100% { transform: scale(0.7); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    @media (max-width: 600px) {
+      .codigo-row { flex-direction: column; }
+      .materiales-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">NTA</div>
+      <div class="logo-text">National Technology Academy<span>San José de Ocoa</span></div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#cursos">Cursos</a></li>
+      <li><a href="index.html#admisiones" class="nav-cta">Inscríbete</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- PANTALLA DE CÓDIGO -->
+  <div id="pantallaCodigo" class="aula-hero">
+    <div class="aula-hero-inner">
+      <div class="aula-badge">▸ Aula Virtual</div>
+      <h1>Accede a tu<br>Clase Virtual</h1>
+      <p>Ingresa el código que te proporcionó tu instructor para acceder a los materiales de tu clase.</p>
+      <div class="codigo-box">
+        <label for="inputCodigo">Código de clase</label>
+        <div class="codigo-row">
+          <input type="text" id="inputCodigo" placeholder="Ej: CIBER-2025" maxlength="20" />
+          <button class="btn-entrar" id="btnEntrar" onclick="entrarClase()">Entrar →</button>
+        </div>
+        <p class="codigo-error" id="codigoError">❌ Código incorrecto. Verifica con tu instructor.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALA DE CLASE -->
+  <div id="sala">
+    <div class="sala-header">
+      <button class="back-btn" onclick="volverInicio()">← Cambiar clase</button>
+      <h2 id="salaTitle"></h2>
+      <span class="curso-tag" id="salaCurso"></span>
+    </div>
+    <div class="sala-wrap">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="cambiarTab('videos',this)">🎬 Videos</button>
+        <button class="tab-btn"        onclick="cambiarTab('pdfs',this)">📄 PDFs</button>
+        <button class="tab-btn"        onclick="cambiarTab('imagenes',this)">🖼️ Imágenes</button>
+      </div>
+      <div id="contenidoMateriales">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="cerrarModalFondo(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+      <div id="modalContenido"></div>
+      <div class="modal-info">
+        <h3 id="modalTitulo"></h3>
+        <p  id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let materialesActuales = [];
+
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    document.getElementById('inputCodigo').addEventListener('keydown', e => {
+      if (e.key === 'Enter') entrarClase();
+    });
+
+    async function entrarClase() {
+      const codigo = document.getElementById('inputCodigo').value.trim().toUpperCase();
+      if (!codigo) return;
+      const btn = document.getElementById('btnEntrar');
+      btn.disabled = true; btn.textContent = '...';
+      document.getElementById('codigoError').style.display = 'none';
+      try {
+        const res  = await fetch('/api/clase/' + codigo);
+        const data = await res.json();
+        if (!data.ok) {
+          document.getElementById('codigoError').style.display = 'block';
+          btn.disabled = false; btn.textContent = 'Entrar →'; return;
+        }
+        materialesActuales = data.materiales;
+        document.getElementById('salaTitle').textContent = data.clase.nombre;
+        document.getElementById('salaCurso').textContent  = data.clase.curso;
+        document.getElementById('pantallaCodigo').style.display = 'none';
+        document.getElementById('sala').style.display = 'block';
+        cambiarTab('videos', document.querySelector('.tab-btn'));
+      } catch(e) {
+        document.getElementById('codigoError').textContent = '❌ Error de conexión.';
+        document.getElementById('codigoError').style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Entrar →';
+      }
+    }
+
+    function volverInicio() {
+      document.getElementById('sala').style.display = 'none';
+      document.getElementById('pantallaCodigo').style.display = 'flex';
+    }
+
+    function cambiarTab(tipo, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const items = materialesActuales.filter(m => m.tipo_grupo === tipo);
+      const c = document.getElementById('contenidoMateriales');
+      if (!items.length) {
+        const nombres = {videos:'videos',pdfs:'PDFs',imagenes:'imágenes'};
+        const iconos  = {videos:'🎬',pdfs:'📄',imagenes:'🖼️'};
+        c.innerHTML = `<div class="empty-state"><div class="e-icon">${iconos[tipo]}</div><p>No hay ${nombres[tipo]} disponibles aún.</p></div>`;
+        return;
+      }
+      c.innerHTML = `<div class="materiales-grid">${items.map(cardHTML).join('')}</div>`;
+    }
+
+    function cardHTML(m) {
+      const etiqueta = {youtube:'YouTube',video:'Video',pdf:'PDF',imagen:'Imagen'}[m.tipo] || m.tipo;
+      let thumb = `<div class="thumb-icon">${{videos:'▶️',pdfs:'📄',imagenes:'🖼️'}[m.tipo_grupo]}</div>`;
+      if (m.tipo === 'youtube') {
+        const vid = ytID(m.url);
+        if (vid) thumb = `<img src="https://img.youtube.com/vi/${vid}/mqdefault.jpg" alt="" />`;
+      } else if (m.tipo === 'imagen') {
+        thumb = `<img src="${m.url}" alt="${m.titulo}" />`;
+      }
+      const safe = m.titulo.replace(/"/g,'&quot;');
+      const desc = (m.descripcion||'').replace(/"/g,'&quot;');
+      return `<div class="material-card" onclick="abrirMaterial('${m.tipo}','${m.url}','${safe}','${desc}')">
+        <div class="card-thumb">${thumb}<span class="tipo-badge">${etiqueta}</span></div>
+        <div class="card-body"><h4>${m.titulo}</h4><p>${m.descripcion||''}</p></div>
+      </div>`;
+    }
+
+    function abrirMaterial(tipo, url, titulo, desc) {
+      const c = document.getElementById('modalContenido');
+      document.getElementById('modalTitulo').textContent = titulo;
+      document.getElementById('modalDesc').textContent   = desc;
+      if (tipo === 'youtube') {
+        const vid = ytID(url);
+        c.innerHTML = `<iframe class="modal-video" src="https://www.youtube.com/embed/${vid}?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+      } else if (tipo === 'video') {
+        c.innerHTML = `<video class="modal-video" controls autoplay src="${url}"></video>`;
+      } else if (tipo === 'pdf') {
+        c.innerHTML = `<iframe class="pdf-viewer" src="${url}"></iframe>`;
+      } else {
+        c.innerHTML = `<img class="img-viewer" src="${url}" alt="${titulo}" />`;
+      }
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('modalContenido').innerHTML = '';
+    }
+    function cerrarModalFondo(e) { if (e.target === document.getElementById('modalOverlay')) cerrarModal(); }
+
+    function ytID(url) {
+      const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+      return m ? m[1] : null;
+    }
+  </script>
+</body>
+</html>

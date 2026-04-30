@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel del Profesor – NTA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { background: var(--gris-bg); }
+
+    /* LOGIN */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+      padding: 20px;
+    }
+    .login-card {
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 20px; padding: 44px 40px; max-width: 400px; width: 100%;
+      text-align: center;
+    }
+    .login-card .logo-icon { margin: 0 auto 20px; width: 56px; height: 56px; font-size: 20px; background: var(--azul); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron',sans-serif; font-weight:900; color:#fff; }
+    .login-card h2 { font-family:'Rajdhani',sans-serif; font-size:1.8rem; color:#fff; margin-bottom:6px; }
+    .login-card p  { color:#94b8d8; font-size:13px; margin-bottom:32px; }
+    .login-card input {
+      width:100%; padding:13px 16px;
+      background:rgba(255,255,255,0.08); border:1.5px solid rgba(255,255,255,0.15);
+      border-radius:10px; color:#fff; font-size:14px; font-family:'Inter',sans-serif;
+      outline:none; margin-bottom:14px; transition:border-color 0.2s;
+    }
+    .login-card input::placeholder { color:rgba(255,255,255,0.35); }
+    .login-card input:focus { border-color:var(--azul-claro); }
+    .btn-login {
+      width:100%; padding:13px; background:var(--azul); color:#fff;
+      border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;
+      transition:background 0.2s;
+    }
+    .btn-login:hover { background:var(--azul-claro); }
+    .login-error { color:#f87171; font-size:13px; margin-top:12px; display:none; }
+
+    /* PANEL LAYOUT */
+    #panel { display:none; min-height:100vh; }
+    .panel-topbar {
+      background:var(--navy); padding:0 5%; height:64px;
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid rgba(74,143,212,0.2); position:sticky; top:0; z-index:100;
+    }
+    .panel-topbar .logo { display:flex; align-items:center; gap:12px; }
+    .panel-topbar .logo span { font-family:'Rajdhani',sans-serif; font-weight:700; font-size:18px; color:#fff; }
+    .panel-topbar .logo small { color:#94b8d8; font-size:11px; letter-spacing:1px; display:block; }
+    .topbar-right { display:flex; align-items:center; gap:16px; }
+    .topbar-right span { color:#94b8d8; font-size:13px; }
+    .btn-logout {
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+      color:#fff; padding:7px 16px; border-radius:8px; font-size:13px; cursor:pointer;
+      transition:all 0.2s;
+    }
+    .btn-logout:hover { background:rgba(255,255,255,0.15); }
+
+    .panel-body { max-width:1100px; margin:0 auto; padding:36px 5% 80px; }
+
+    /* Sección header */
+    .sec-header {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:24px; flex-wrap:wrap; gap:12px;
+    }
+    .sec-header h3 { font-family:'Rajdhani',sans-serif; font-size:1.5rem; color:var(--texto); }
+
+    /* Btn primario */
+    .btn-primary {
+      background:var(--azul); color:#fff; border:none;
+      padding:10px 22px; border-radius:10px; font-size:14px; font-weight:600;
+      cursor:pointer; transition:background 0.2s, transform 0.15s;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn-primary:hover { background:var(--azul-claro); transform:translateY(-1px); }
+
+    /* Clases grid */
+    .clases-grid {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px;
+      margin-bottom:48px;
+    }
+    .clase-card {
+      background:#fff; border:1px solid var(--gris-2); border-radius:14px; padding:22px;
+      transition:box-shadow 0.2s;
+    }
+    .clase-card:hover { box-shadow:0 6px 28px rgba(15,40,80,0.1); }
+    .clase-card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+    .clase-card h4 { font-weight:700; font-size:16px; color:var(--texto); margin-bottom:4px; }
+    .clase-card .curso-pill {
+      background:var(--acento-suave); color:var(--azul);
+      font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+      padding:3px 12px; border-radius:20px; white-space:nowrap;
+    }
+    .clase-card .codigo-display {
+      font-family:'Orbitron',sans-serif; font-size:18px; font-weight:700;
+      color:var(--navy); letter-spacing:3px; margin:14px 0;
+      background:var(--gris-bg); padding:10px 14px; border-radius:8px;
+      text-align:center;
+    }
+    .clase-card-actions { display:flex; gap:8px; margin-top:14px; }
+    .btn-sm {
+      flex:1; padding:8px; border-radius:8px; font-size:13px; font-weight:500;
+      cursor:pointer; border:none; transition:all 0.2s; text-align:center;
+    }
+    .btn-sm-blue  { background:var(--acento-suave); color:var(--azul); }
+    .btn-sm-blue:hover { background:var(--azul); color:#fff; }
+    .btn-sm-red   { background:#fff0f0; color:#e53e3e; }
+    .btn-sm-red:hover { background:#e53e3e; color:#fff; }
+    .mat-count { font-size:12px; color:var(--gris-texto); }
+
+    /* Materiales panel */
+    .materiales-panel {
+      display:none; background:#fff; border:1px solid var(--gris-2);
+      border-radius:16px; padding:28px; margin-bottom:40px;
+    }
+    .materiales-panel.open { display:block; }
+    .mat-panel-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+    .mat-panel-header h4 { font-family:'Rajdhani',sans-serif; font-size:1.2rem; color:var(--texto); }
+    .mat-panel-header button { background:none; border:none; color:var(--gris-texto); cursor:pointer; font-size:20px; padding:4px; }
+
+    /* Upload form */
+    .upload-form {
+      background:var(--gris-bg); border:1.5px dashed var(--gris-3);
+      border-radius:12px; padding:24px; margin-bottom:24px;
+    }
+    .upload-form h5 { font-size:13px; font-weight:600; color:var(--gris-texto); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+    .form-row.single { grid-template-columns:1fr; }
+    .upload-form label { font-size:12px; font-weight:600; color:var(--gris-texto); display:block; margin-bottom:6px; letter-spacing:0.5px; }
+    .upload-form input,
+    .upload-form select,
+    .upload-form textarea {
+      width:100%; padding:10px 14px;
+      background:#fff; border:1.5px solid var(--gris-2);
+      border-radius:9px; color:var(--texto); font-size:14px;
+      font-family:'Inter',sans-serif; outline:none;
+      transition:border-color 0.2s;
+    }
+    .upload-form input:focus,
+    .upload-form select:focus { border-color:var(--azul); }
+    .upload-form textarea { resize:vertical; min-height:70px; }
+    .upload-form .btn-primary { margin-top:8px; }
+    #archivoGroup { display:none; }
+    #urlGroup     { display:none; }
+
+    /* Lista de materiales */
+    .mat-list { display:flex; flex-direction:column; gap:10px; }
+    .mat-item {
+      display:flex; align-items:center; gap:14px;
+      padding:12px 16px; background:var(--gris-bg);
+      border:1px solid var(--gris-2); border-radius:10px;
+    }
+    .mat-item .mat-ico { font-size:22px; flex-shrink:0; }
+    .mat-item .mat-info { flex:1; min-width:0; }
+    .mat-item .mat-info strong { display:block; font-size:14px; color:var(--texto); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mat-item .mat-info small  { font-size:12px; color:var(--gris-texto); }
+    .mat-item .btn-del { background:none; border:none; color:#e53e3e; cursor:pointer; font-size:18px; padding:4px; opacity:0.6; transition:opacity 0.2s; }
+    .mat-item .btn-del:hover { opacity:1; }
+
+    /* Modal crear clase */
+    .modal-overlay {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,0.6); z-index:9000;
+      align-items:center; justify-content:center; padding:20px;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal-form {
+      background:#fff; border-radius:18px; padding:36px;
+      max-width:480px; width:100%; position:relative;
+    }
+    .modal-form h3 { font-family:'Rajdhani',sans-serif; font-size:1.5rem; margin-bottom:20px; color:var(--texto); }
+    .modal-form label { font-size:12px; font-weight:600; color:var(--gris-texto); display:block; margin-bottom:6px; letter-spacing:0.5px; }
+    .modal-form input,
+    .modal-form select {
+      width:100%; padding:12px 14px;
+      background:var(--gris-bg); border:1.5px solid var(--gris-2);
+      border-radius:10px; color:var(--texto); font-size:14px;
+      font-family:'Inter',sans-serif; outline:none; margin-bottom:16px;
+      transition:border-color 0.2s;
+    }
+    .modal-form input:focus,
+    .modal-form select:focus { border-color:var(--azul); }
+    .modal-actions { display:flex; gap:10px; margin-top:4px; }
+    .btn-cancel { flex:1; padding:11px; background:var(--gris-bg); border:1px solid var(--gris-2); border-radius:10px; font-size:14px; cursor:pointer; color:var(--gris-texto); transition:all 0.2s; }
+    .btn-cancel:hover { background:var(--gris-2); }
+    .modal-close-x { position:absolute; top:16px; right:16px; background:none; border:none; font-size:20px; cursor:pointer; color:var(--gris-texto); }
+
+    /* Toast */
+    #panelToast {
+      position:fixed; bottom:30px; right:30px;
+      background:var(--navy); color:#fff;
+      padding:14px 22px; border-radius:10px;
+      font-weight:600; font-size:14px; z-index:9998;
+      transform:translateY(80px); opacity:0;
+      transition:transform 0.4s, opacity 0.4s;
+      box-shadow:0 8px 30px rgba(15,40,80,0.3);
+    }
+    #panelToast.show { transform:translateY(0); opacity:1; }
+
+    @media(max-width:600px) {
+      .form-row { grid-template-columns:1fr; }
+      .clases-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginWrap" class="login-wrap">
+    <div class="login-card">
+      <div class="logo-icon">NTA</div>
+      <h2>Panel del Profesor</h2>
+      <p>Acceso exclusivo para instructores de la National Technology Academy</p>
+      <input type="password" id="inputClave" placeholder="Contraseña de acceso" />
+      <button class="btn-login" onclick="login()">Entrar al Panel</button>
+      <p class="login-error" id="loginError">❌ Contraseña incorrecta.</p>
+    </div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="panel">
+    <div class="panel-topbar">
+      <div class="logo">
+        <div class="logo-icon" style="width:38px;height:38px;font-size:14px;">NTA</div>
+        <div>
+          <span>Panel del Profesor</span>
+          <small>NATIONAL TECHNOLOGY ACADEMY</small>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Mis clases -->
+      <div class="sec-header">
+        <h3>📚 Mis Clases</h3>
+        <button class="btn-primary" onclick="abrirModalClase()">+ Nueva Clase</button>
+      </div>
+      <div class="clases-grid" id="clasesGrid">
+        <p style="color:var(--gris-texto);font-size:14px;">Cargando clases...</p>
+      </div>
+
+      <!-- Panel de materiales (se despliega al hacer clic en una clase) -->
+      <div class="materiales-panel" id="materialesPanel">
+        <div class="mat-panel-header">
+          <h4 id="matPanelTitle">Materiales</h4>
+          <button onclick="cerrarMatPanel()" title="Cerrar">✕</button>
+        </div>
+
+        <!-- Subir material -->
+        <div class="upload-form">
+          <h5>➕ Agregar material</h5>
+          <div class="form-row">
+            <div>
+              <label>Tipo de material</label>
+              <select id="tipoMat" onchange="cambiarTipo()">
+                <option value="youtube">Video de YouTube</option>
+                <option value="video">Video (archivo)</option>
+                <option value="pdf">PDF</option>
+                <option value="imagen">Imagen</option>
+              </select>
+            </div>
+            <div>
+              <label>Título del material</label>
+              <input type="text" id="matTitulo" placeholder="Ej: Introducción al tema" />
+            </div>
+          </div>
+          <div class="form-row single" id="urlGroup">
+            <div>
+              <label>URL de YouTube</label>
+              <input type="url" id="matUrl" placeholder="https://youtube.com/watch?v=..." />
+            </div>
+          </div>
+          <div class="form-row single" id="archivoGroup">
+            <div>
+              <label>Seleccionar archivo</label>
+              <input type="file" id="matArchivo" />
+            </div>
+          </div>
+          <div class="form-row single">
+            <div>
+              <label>Descripción (opcional)</label>
+              <textarea id="matDesc" placeholder="Breve descripción del material..."></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" id="btnSubir" onclick="subirMaterial()">⬆ Subir material</button>
+        </div>
+
+        <!-- Lista de materiales existentes -->
+        <div class="mat-list" id="matList">
+          <p style="color:var(--gris-texto);font-size:14px;text-align:center;padding:20px;">No hay materiales aún. ¡Sube el primero!</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL CREAR CLASE -->
+  <div class="modal-overlay" id="modalClase" onclick="cerrarModalFondo(event)">
+    <div class="modal-form">
+      <button class="modal-close-x" onclick="cerrarModalClase()">✕</button>
+      <h3>Crear Nueva Clase</h3>
+      <label>Nombre de la clase</label>
+      <input type="text" id="nuevaClaseNombre" placeholder="Ej: Ciberseguridad – Grupo A" />
+      <label>Curso</label>
+      <select id="nuevaClaseCurso">
+        <option>Ciberseguridad</option>
+        <option>Desarrollo Web</option>
+        <option>Base de Datos</option>
+        <option>Redes y Telecomunicaciones</option>
+      </select>
+      <label>Código de acceso para estudiantes</label>
+      <input type="text" id="nuevaClaseCodigo" placeholder="Ej: CIBER-2025" style="font-family:'Orbitron',sans-serif;letter-spacing:2px;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()" />
+      <p style="font-size:12px;color:var(--gris-texto);margin-top:-10px;margin-bottom:16px;">Este código es el que compartirás con tus estudiantes.</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="cerrarModalClase()">Cancelar</button>
+        <button class="btn-primary" style="flex:1;" onclick="crearClase()">Crear Clase</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panelToast"></div>
+
+  <script>
+    let claseSeleccionadaId = null;
+
+    // ── AUTH ──────────────────────────────────────────────────
+    document.getElementById('inputClave').addEventListener('keydown', e => {
+      if (e.key === 'Enter') login();
+    });
+
+    async function login() {
+      const clave = document.getElementById('inputClave').value;
+      const res   = await fetch('/api/panel/login', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ clave })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        sessionStorage.setItem('nta_panel', '1');
+        document.getElementById('loginWrap').style.display = 'none';
+        document.getElementById('panel').style.display = 'block';
+        cargarClases();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('nta_panel');
+      location.reload();
+    }
+
+    // Auto-login si ya estaba autenticado
+    if (sessionStorage.getItem('nta_panel')) {
+      document.getElementById('loginWrap').style.display = 'none';
+      document.getElementById('panel').style.display = 'block';
+      cargarClases();
+    }
+
+    // ── CLASES ────────────────────────────────────────────────
+    async function cargarClases() {
+      const res  = await fetch('/api/panel/clases');
+      const data = await res.json();
+      const grid = document.getElementById('clasesGrid');
+      if (!data.clases.length) {
+        grid.innerHTML = '<p style="color:var(--gris-texto);font-size:14px;">Aún no has creado ninguna clase. ¡Crea la primera!</p>';
+        return;
+      }
+      grid.innerHTML = data.clases.map(c => `
+        <div class="clase-card">
+          <div class="clase-card-top">
+            <div>
+              <h4>${c.nombre}</h4>
+              <span class="curso-pill">${c.curso}</span>
+            </div>
+          </div>
+          <div class="codigo-display">${c.codigo}</div>
+          <p class="mat-count">📁 ${c.total_materiales || 0} materiales</p>
+          <div class="clase-card-actions">
+            <button class="btn-sm btn-sm-blue" onclick="abrirMateriales(${c.id},'${c.nombre.replace(/'/g,"\\'")}')">Ver materiales</button>
+            <button class="btn-sm btn-sm-red"  onclick="eliminarClase(${c.id})">Eliminar</button>
+          </div>
+        </div>`).join('');
+    }
+
+    function abrirModalClase() { document.getElementById('modalClase').classList.add('open'); }
+    function cerrarModalClase() { document.getElementById('modalClase').classList.remove('open'); }
+    function cerrarModalFondo(e) { if (e.target.classList.contains('modal-overlay')) cerrarModalClase(); }
+
+    async function crearClase() {
+      const nombre = document.getElementById('nuevaClaseNombre').value.trim();
+      const curso  = document.getElementById('nuevaClaseCurso').value;
+      const codigo = document.getElementById('nuevaClaseCodigo').value.trim().toUpperCase();
+      if (!nombre || !codigo) { toast('⚠️ Completa todos los campos.'); return; }
+      const res  = await fetch('/api/panel/clases', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ nombre, curso, codigo })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        cerrarModalClase();
+        document.getElementById('nuevaClaseNombre').value = '';
+        document.getElementById('nuevaClaseCodigo').value = '';
+        toast('✅ Clase creada correctamente.');
+        cargarClases();
+      } else {
+        toast('❌ ' + (data.error || 'Error al crear la clase.'));
+      }
+    }
+
+    async function eliminarClase(id) {
+      if (!confirm('¿Seguro que deseas eliminar esta clase y todos sus materiales?')) return;
+      const res = await fetch('/api/panel/clases/' + id, { method:'DELETE' });
+      const data = await res.json();
+      if (data.ok) { toast('🗑️ Clase eliminada.'); cargarClases(); cerrarMatPanel(); }
+    }
+
+    // ── MATERIALES ────────────────────────────────────────────
+    async function abrirMateriales(id, nombre) {
+      claseSeleccionadaId = id;
+      document.getElementById('matPanelTitle').textContent = '📁 Materiales — ' + nombre;
+      document.getElementById('materialesPanel').classList.add('open');
+      document.getElementById('materialesPanel').scrollIntoView({ behavior:'smooth' });
+      cambiarTipo();
+      await cargarMateriales();
+    }
+
+    function cerrarMatPanel() {
+      document.getElementById('materialesPanel').classList.remove('open');
+      claseSeleccionadaId = null;
+    }
+
+    function cambiarTipo() {
+      const tipo = document.getElementById('tipoMat').value;
+      document.getElementById('urlGroup').style.display     = tipo === 'youtube' ? 'grid' : 'none';
+      document.getElementById('archivoGroup').style.display = tipo !== 'youtube' ? 'grid' : 'none';
+    }
+
+    async function cargarMateriales() {
+      const res  = await fetch('/api/panel/materiales/' + claseSeleccionadaId);
+      const data = await res.json();
+      const list = document.getElementById('matList');
+      if (!data.materiales.length) {
+        list.innerHTML = '<p style="color:var(--gris-texto);font-size:14px;text-align:center;padding:20px;">No hay materiales aún.</p>';
+        return;
+      }
+      const iconos = { youtube:'▶️', video:'🎬', pdf:'📄', imagen:'🖼️' };
+      list.innerHTML = data.materiales.map(m => `
+        <div class="mat-item">
+          <span class="mat-ico">${iconos[m.tipo] || '📁'}</span>
+          <div class="mat-info">
+            <strong>${m.titulo}</strong>
+            <small>${m.tipo.toUpperCase()} · ${m.fecha_creacion}</small>
+          </div>
+          <button class="btn-del" onclick="eliminarMaterial(${m.id})" title="Eliminar">🗑</button>
+        </div>`).join('');
+    }
+
+    async function subirMaterial() {
+      if (!claseSeleccionadaId) return;
+      const tipo   = document.getElementById('tipoMat').value;
+      const titulo = document.getElementById('matTitulo').value.trim();
+      const desc   = document.getElementById('matDesc').value.trim();
+      if (!titulo) { toast('⚠️ Escribe un título para el material.'); return; }
+
+      const btn = document.getElementById('btnSubir');
+      btn.disabled = true; btn.textContent = 'Subiendo...';
+
+      let res;
+      if (tipo === 'youtube') {
+        const url = document.getElementById('matUrl').value.trim();
+        if (!url) { toast('⚠️ Pega la URL de YouTube.'); btn.disabled=false; btn.textContent='⬆ Subir material'; return; }
+        res = await fetch('/api/panel/materiales', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ clase_id: claseSeleccionadaId, tipo, titulo, descripcion: desc, url })
+        });
+      } else {
+        const archivo = document.getElementById('matArchivo').files[0];
+        if (!archivo) { toast('⚠️ Selecciona un archivo.'); btn.disabled=false; btn.textContent='⬆ Subir material'; return; }
+        const fd = new FormData();
+        fd.append('archivo', archivo);
+        fd.append('tipo',     tipo);
+        fd.append('titulo',   titulo);
+        fd.append('descripcion', desc);
+        fd.append('clase_id', claseSeleccionadaId);
+        res = await fetch('/api/panel/materiales/upload', { method:'POST', body: fd });
+      }
+
+      const data = await res.json();
+      btn.disabled = false; btn.textContent = '⬆ Subir material';
+
+      if (data.ok) {
+        toast('✅ Material agregado.');
+        document.getElementById('matTitulo').value = '';
+        document.getElementById('matUrl').value    = '';
+        document.getElementById('matDesc').value   = '';
+        document.getElementById('matArchivo').value = '';
+        await cargarMateriales();
+        cargarClases();
+      } else {
+        toast('❌ ' + (data.error || 'Error al subir.'));
+      }
+    }
+
+    async function eliminarMaterial(id) {
+      if (!confirm('¿Eliminar este material?')) return;
+      const res = await fetch('/api/panel/materiales/' + id, { method:'DELETE' });
+      const data = await res.json();
+      if (data.ok) { toast('🗑️ Material eliminado.'); cargarMateriales(); cargarClases(); }
+    }
+
+    // ── TOAST ─────────────────────────────────────────────────
+    function toast(msg) {
+      const t = document.getElementById('panelToast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+</html>
