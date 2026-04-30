@@ -90,7 +90,9 @@ async function initDB() {
 
 /* ── Correo ───────────────────────────────────────────────── */
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host:   'smtp.gmail.com',
+  port:    465,
+  secure:  true,
   auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS },
 });
 
@@ -141,9 +143,9 @@ app.post('/api/preinscripcion', async (req, res) => {
           </table>
         </div>
       </div>`
-  }, (err) => {
-    if (err) console.error('⚠️ Correo no enviado:', err.message);
-    else     console.log(`📧 Correo enviado a ${process.env.CORREO_DESTINO}`);
+  }, (err, info) => {
+    if (err) console.error('⚠️ ERROR enviando correo:', JSON.stringify(err));
+    else     console.log(`📧 Correo enviado OK a ${process.env.CORREO_DESTINO} — ID: ${info.messageId}`);
   });
 
   res.json({ ok: true, id: nuevoId });
