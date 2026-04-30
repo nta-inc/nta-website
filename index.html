@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="National Technology Academy – Formando líderes del futuro digital en San José de Ocoa, República Dominicana." />
+  <title>National Technology Academy</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- Hoja de estilos principal -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Barra de progreso de scroll -->
+  <div class="scroll-bar" id="scrollBar"></div>
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <div class="logo-icon">NTA</div>
+      <div class="logo-text">
+        National Technology Academy
+        <span>San José de Ocoa</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#admisiones">Admisiones</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#admisiones" class="nav-cta">Inscríbete</a></li>
+    </ul>
+
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">National Technology Academy · San José de Ocoa</div>
+
+      <h1 class="hero-title">
+        Formando <span class="highlight">Líderes</span><br />
+        del <span class="accent">Futuro</span> Digital
+      </h1>
+
+      <p class="hero-desc">
+        En National Technology Academy ofrecemos carreras técnicas y cursos de alta demanda laboral
+        para que construyas el camino profesional que mereces, con tecnología,
+        excelencia y buenos valores.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#admisiones" class="btn-primary">✦ Inscríbete Ahora</a>
+        <a href="#cursos"     class="btn-secondary">Ver Cursos →</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num" data-count="4">4</div>
+          <div class="stat-label">Cursos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-count="100" data-suffix="%">100%</div>
+          <div class="stat-label">Enfoque Práctico</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">Acceso en Línea</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CURSOS
+  ══════════════════════════════════════════ -->
+  <section id="cursos">
+    <div class="section-header reveal">
+      <div class="section-tag">▸ Oferta Académica</div>
+      <h2 class="section-title">Nuestros Cursos<br />y Carreras</h2>
+      <p class="section-desc">Programas diseñados con estándares nacionales e internacionales, orientados al mercado laboral dominicano y global.</p>
+    </div>
+
+    <div class="cursos-grid">
+
+      <div class="curso-card reveal">
+        <div class="curso-icon" style="background:rgba(37,99,235,0.15)">💻</div>
+        <h3>Ciberseguridad</h3>
+        <p>Un curso de ciberseguridad te enseña a proteger sistemas, redes y datos de amenazas digitales, identificando vulnerabilidades y aplicando medidas básicas de seguridad para evitar ataques y màs.</p>
+        <div class="curso-meta">
+          <span class="meta-tag">12 meses</span>
+          <span class="meta-tag">Presencial</span>
+          <span class="meta-tag">Certificado INFOTEP</span>
+        </div>
+      </div>
+
+      <div class="curso-card reveal">
+        <div class="curso-icon" style="background:rgba(16,185,129,0.15)">🌐</div>
+        <h3>Desarrollo Web</h3>
+        <p>Curso de desarrollo web donde aprenderás a crear páginas y aplicaciones usando HTML, CSS y JavaScript, desde lo básico hasta proyectos funcionales.</p>
+        <div class="curso-meta">
+          <span class="meta-tag">10 meses</span>
+          <span class="meta-tag">Presencial</span>
+          <span class="meta-tag">Html</span>
+        </div>
+      </div>
+
+      <div class="curso-card reveal">
+        <div class="curso-icon" style="background:rgba(245,158,11,0.15)">📊</div>
+        <h3>Base De Datos</h3>
+        <p>Curso de bases de datos donde aprenderás a organizar, almacenar y gestionar información usando herramientas como SQL.</p>
+        <div class="curso-meta">
+          <span class="meta-tag">8 meses</span>
+          <span class="meta-tag">Semipresencial</span>
+          <span class="meta-tag">Sql</span>
+        </div>
+      </div>
+
+      <div class="curso-card reveal">
+        <div class="curso-icon" style="background:rgba(139,92,246,0.15)">🛜</div>
+        <h3>Redes y Telecomunicaciones</h3>
+        <p>Curso de redes y telecomunicaciones donde aprenderás cómo se conectan dispositivos y se transmite la información, configurando redes y entendiendo su funcionamiento básico.</p>
+        <div class="curso-meta">
+          <span class="meta-tag">10 meses</span>
+          <span class="meta-tag">Presencial</span>
+          <span class="meta-tag">Indotel</span>
+        </div>
+      </div>
+
+      
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       NOSOTROS
+  ══════════════════════════════════════════ -->
+  <section id="nosotros">
+    <div class="nosotros-inner">
+
+      <div>
+        <div class="section-tag reveal">▸ Quiénes Somos</div>
+        <h2 class="section-title reveal">Excelencia Técnica<br />con Raíces Ocoeñas</h2>
+        <p class="section-desc reveal">
+          Somos National Technology Academy, comprometidos con la formación
+          técnico-profesional de alta calidad para los jóvenes de la provincia Ocoa y sus alrededores.
+          Nacimos con la misión de que la distancia no sea un obstáculo para el desarrollo.
+        </p>
+
+        <ul class="valores-list">
+          <li class="valor-item reveal">
+            <span class="valor-ico">🎯</span>
+            <div>
+              <h4>Misión</h4>
+              <p>Nuestra misión es formar profesionales técnicos y tecnológicos competentes, éticos e innovadores, mediante una educación de calidad orientada a la práctica, la investigación y el desarrollo sostenible, contribuyendo al progreso social, económico y productivo de la provincia de San José de Ocoa y del país.</p>
+            </div>
+          </li>
+          <li class="valor-item reveal">
+            <span class="valor-ico">🔭</span>
+            <div>
+              <h4>Visión</h4>
+              <p>Ser un instituto tecnológico líder en la región, reconocido por la excelencia académica, y por enseñar a personas de todas las edades contribuyendo a la evolución de la tecnología y de las habilidades productivas de la población ocoeña.</p>
+            </div>
+          </li>
+          <li class="valor-item reveal">
+            <span class="valor-ico">⭐</span>
+            <div>
+              <h4>Valores</h4>
+              <p>Disciplina, Honestidad, Transparencia, Resiliencia, Responsabilidad & Innovación.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nosotros-visual reveal">
+        <div class="visual-row">
+          <div class="visual-card">
+            <div class="big-num">4</div>
+            <p>Docentes certificados</p>
+          </div>
+          <div class="visual-card">
+            <div class="big-num">3</div>
+            <p>Laboratorios equipados</p>
+          </div>
+        </div>
+        <div class="visual-card">
+          <div class="big-num">100%</div>
+          <p>Cursos con enfoque en habilidades del mercado actual</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       ADMISIONES
+  ══════════════════════════════════════════ -->
+  <section id="admisiones">
+    <div class="admisiones-inner">
+
+      <div>
+        <div class="section-tag reveal">▸ Admisiones</div>
+        <h2 class="section-title reveal">Comienza Tu<br />Historia Aquí</h2>
+        <p class="section-desc reveal">
+          El proceso de inscripción es rápido y sencillo. Solo sigue estos pasos
+          y en pocos días serás parte de nuestra comunidad.
+        </p>
+
+        <ul class="steps-list" style="margin-top:36px">
+          <li class="step-item reveal">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h4>Completa el formulario</h4>
+              <p>Llena tus datos personales y selecciona el curso de tu interés en línea o en físico.</p>
+            </div>
+          </li>
+          <li class="step-item reveal">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h4>Entrega documentos</h4>
+              <p>Acta de nacimiento, cédula o carnet escolar, certificado de estudios y 2 fotos 2×2.</p>
+            </div>
+          </li>
+          <li class="step-item reveal">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h4>Proceso de admisión</h4>
+              <p>Nuestro equipo revisa tu solicitud y te notifica en un plazo de 48 horas.</p>
+            </div>
+          </li>
+          <li class="step-item reveal">
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <h4>Inicio de clases</h4>
+              <p>¡Bienvenido! Recibe tu inducción y empieza a transformar tu futuro.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Formulario -->
+      <div class="formulario-card reveal">
+        <h3>Pre-inscripción</h3>
+        <p class="sub">Reserva tu lugar · Respuesta en 48 horas</p>
+
+        <form id="formInscripcion" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombres">Nombres *</label>
+              <input type="text" id="nombres" placeholder="Juan" required />
+            </div>
+            <div class="form-group">
+              <label for="apellidos">Apellidos *</label>
+              <input type="text" id="apellidos" placeholder="Pérez" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cedula">Cédula / Pasaporte *</label>
+            <input type="text" id="cedula" placeholder="001-0000000-0" required />
+          </div>
+          <div class="form-group">
+            <label for="correo">Correo Electrónico *</label>
+            <input type="email" id="correo" placeholder="correo@ejemplo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono *</label>
+            <input type="tel" id="telefono" placeholder="(809) 000-0000" required />
+          </div>
+          <div class="form-group">
+            <label for="curso">Curso de Interés *</label>
+            <select id="curso" required>
+              <option value="" disabled selected>— Selecciona un curso —</option>
+              <option>Ciberseguridad</option>
+              <option>Desarrollo Web</option>
+              <option>Base de Datos</option>
+              <option>Redes y Telecomunicaciones</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="modalidad">Modalidad</label>
+            <select id="modalidad">
+              <option>Presencial</option>
+              <option>Semipresencial</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-form">✦ Enviar Pre-inscripción</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CONTACTO
+  ══════════════════════════════════════════ -->
+  <section id="contacto">
+    <div class="contacto-inner">
+
+      <div>
+        <div class="section-tag reveal">▸ Contáctanos</div>
+        <h2 class="section-title reveal">Estamos Para<br />Ayudarte</h2>
+        <p class="section-desc reveal">
+          ¿Tienes dudas sobre algún programa? Visítanos o escríbenos. Nuestro equipo
+          de orientación está disponible de lunes a viernes.
+        </p>
+
+        <div class="info-cards" style="margin-top:32px">
+          <div class="info-card reveal">
+            <span class="info-ico">📍</span>
+            <div>
+              <h4>Dirección</h4>
+              <p>Calle Principal, San José de Ocoa, Provincia Ocoa, República Dominicana</p>
+            </div>
+          </div>
+          <div class="info-card reveal">
+            <span class="info-ico">📞</span>
+            <div>
+              <h4>Teléfonos</h4>
+              <p>(809) 558-0000 · (829) 558-0001</p>
+            </div>
+          </div>
+          <div class="info-card reveal">
+            <span class="info-ico">✉️</span>
+            <div>
+              <h4>Correo</h4>
+              <p>nationaltechnologyacademy@gmail.com</p>
+            </div>
+          </div>
+          <div class="info-card reveal">
+            <span class="info-ico">🕐</span>
+            <div>
+              <h4>Horario</h4>
+              <p>Lunes–Viernes: 8:00 AM – 6:00 PM · Sábados: 8:00 AM – 1:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-placeholder reveal">
+        <div class="map-icon">🗺️</div>
+        <p><strong>San José de Ocoa, San José de Ocoa</strong></p>
+        <p>República Dominicana</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo" style="text-decoration:none">
+          <div class="logo-icon">NTA</div>
+          <div class="logo-text">NTA <span>National Technology Academy</span></div>
+        </a>
+        <p>Formando el talento técnico que San José de Ocoa y la República Dominicana necesitan para el siglo XXI.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Cursos</h5>
+        <a href="#cursos">Ciberseguridad</a>
+        <a href="#cursos">Desarrollo Web</a>
+        <a href="#cursos">Base de Datos</a>
+        <a href="#cursos">Redes y Telecomunicaciones</a>
+      </div>
+
+      <div class="footer-col">
+        <h5>Instituto</h5>
+        <a href="#nosotros">Quiénes Somos</a>
+        <a href="#admisiones">Admisiones</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+
+      <div class="footer-col">
+        <h5>Redes Sociales</h5>
+        <a href="#">Facebook</a>
+        <a href="https://www.instagram.com/nationaltechonolgy.academy/">Instagram</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 National Technology Academy · Todos los derechos reservados · San José de Ocoa, República Dominicana</p>
+    </div>
+  </footer>
+
+  <!-- Toast de confirmación -->
+  <div id="toast"></div>
+
+  <!-- Script principal -->
+  <script src="main.js"></script>
+
+</body>
+</html>
