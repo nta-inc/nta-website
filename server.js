@@ -5,7 +5,8 @@
 
 require('dotenv').config();
 const express    = require('express');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 const sqlite3    = require('sqlite3').verbose();
 const { open }   = require('sqlite');
 const multer     = require('multer');
@@ -88,13 +89,6 @@ async function initDB() {
   console.log('✅ Base de datos lista');
 }
 
-/* ── Correo ───────────────────────────────────────────────── */
-const transporter = nodemailer.createTransport({
-  host:   'smtp.gmail.com',
-  port:    465,
-  secure:  true,
-  auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS },
-});
 
 /* ═══════════════════════════════════════════════════════════
    RUTAS – PRE-INSCRIPCIÓN
@@ -121,8 +115,8 @@ app.post('/api/preinscripcion', async (req, res) => {
     dateStyle:'full', timeStyle:'short', timeZone:'America/Santo_Domingo'
   });
 
-  transporter.sendMail({
-    from:    `"NTA Pre-inscripciones" <${process.env.GMAIL_USER}>`,
+  resend.emails.send({
+    from:    'NTA Pre-inscripciones <onboarding@resend.dev>',
     to:      process.env.CORREO_DESTINO,
     subject: `Nueva Pre-inscripción #${nuevoId} — ${nombres} ${apellidos}`,
     html: `
@@ -143,10 +137,8 @@ app.post('/api/preinscripcion', async (req, res) => {
           </table>
         </div>
       </div>`
-  }, (err, info) => {
-    if (err) console.error('⚠️ ERROR enviando correo:', JSON.stringify(err));
-    else     console.log(`📧 Correo enviado OK a ${process.env.CORREO_DESTINO} — ID: ${info.messageId}`);
-  });
+  }).then(r => console.log(`📧 Correo enviado OK — ID: ${r.id}`))
+    .catch(e => console.error('⚠️ ERROR correo:', e.message));
 
   res.json({ ok: true, id: nuevoId });
 });
@@ -248,16 +240,5 @@ initDB().then(() => {
     console.log(`\n🚀 Servidor en http://localhost:${PORT}`);
     console.log(`   Aula Virtual:   http://localhost:${PORT}/aula.html`);
     console.log(`   Panel Profesor: http://localhost:${PORT}/panel.html\n`);
-
-    // Verificar conexión con Gmail al arrancar
-    transporter.verify((err, success) => {
-      if (err) {
-        console.error('❌ ERROR GMAIL:', JSON.stringify(err));
-        console.error('   USER:', process.env.GMAIL_USER);
-        console.error('   PASS definida:', !!process.env.GMAIL_PASS);
-      } else {
-        console.log('✅ Conexión con Gmail OK — listo para enviar correos');
-      }
-    });
   });
 }).catch(err => { console.error('Error:', err); process.exit(1); });
